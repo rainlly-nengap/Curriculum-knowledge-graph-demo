@@ -1,0 +1,115 @@
+{% extends 'list.html' %}
+{% block content %}
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
+    <style>
+        h1 {
+            font-size:40px;
+            color: white;
+            background-color:black;
+            text-align: center
+        }
+         #tips-layout {
+            color: black;
+            opacity: 0.7;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 178px;
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+            height: auto;
+        }
+
+        #tips-title {
+            font-size: 18px;
+            text-align: center;
+        }
+        #tips-content {
+            text-indent: 2em;
+            font-size: 13px;
+            padding: 0px 8px 0px 8px;
+            margin: 5px 0px 5px 0px;
+        }
+        #tips-switch-layout {
+            width: 100%;
+            height: auto;
+            line-height: 30px;
+            text-align: center;
+        }
+        .layui-form-label {
+            width: 0px;
+        }
+        .layui-input-block {
+            margin-left: 70px;
+            min-height: 36px;
+        }
+        .layui-footer"{
+            text-align:center;
+        }
+        center_text{
+        　　display:inline-block;
+        　　width:500px
+        }
+    </style>
+</head>
+<body>
+<div style="padding: 20px 40px">
+    <table class="layui-hide" id="test" lay-filter="test"></table>
+</div>
+
+
+<script src="/static/js/jquery-min.js"></script>
+<script src="/static/layui/layui.js"></script>
+
+
+<script>
+    layui.use(['table', 'form'], function () {
+        let table = layui.table;
+        let form = layui.form;
+
+        table.render({
+            elem: '#test'
+            , url: '/search_choice' //请求数据接口路由
+            , page: true
+            , title: "历史选择题"
+            , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , defaultToolbar: ['exports', 'print']
+            , title: '用户数据表'
+            , page: true //开启分页
+            , limit: 10
+            , request: {
+                 pageName: 'curr' //页码的参数名称，默认：page
+                 ,limitName: 'nums' //每页数据量的参数名，默认：limit
+             }
+             ,cols: [[ //表头
+             {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+             ,{field: 'content', title: '题目', width:500}
+             ,{field: 'choice_a', title: 'A选项', width:120}
+             ,{field: 'choice_b', title: 'B选项', width:120}
+             ,{field: 'choice_c', title: 'C选项', width: 120}
+             ,{field: 'choice_d', title: 'D选项', width: 120}
+             ,{field: 'true_answer', title: '答案', width: 180}
+             ,{field: 'point', title: '知识点', width: 200}
+             ]]
+            , error: function(error, content){
+                message_fail('加载失败');
+                console.log(error, content)
+            }
+        });
+
+        //头工具栏事件
+
+        //监听行工具事件
+    });
+</script>
+</body>
+</html>
+
+{% endblock %}

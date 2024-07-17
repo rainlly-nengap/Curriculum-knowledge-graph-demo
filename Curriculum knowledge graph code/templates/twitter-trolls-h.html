@@ -1,0 +1,100 @@
+{% extends 'list.html' %}
+{% block content %}
+
+<html>
+<head>
+    <title>h-graph</title>
+    <style type="text/css">
+        #viz {
+            width: 1800px;
+            height: 700px;
+        }
+                .layui-form-label {
+            width: 0px;
+        }
+        .layui-input-block {
+            margin-left: 70px;
+            min-height: 36px;
+        }
+        .layui-footer"{
+            text-align:center;
+        }
+        center_text{
+        　　display:inline-block;
+        　　width:500px
+        }
+    </style>
+    <script src="/static/js/neovis.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+</head>
+<script>
+	function draw() {
+		var config = {
+			containerId: "viz",
+			neo4j: {
+				serverUrl: "neo4j://localhost:7687",
+				serverUser: "neo4j",
+				serverPassword: "neo4j_0336"
+			},
+			visConfig: {
+					nodes: {
+						shape: 'dot'
+					},
+					edges: {
+						arrows: {
+							to: {enabled: true}
+						}
+					},
+				},
+			labels: {
+				knowledge_h: {
+					label: "name",
+				}
+			},
+			relationships: {
+			    "relation": {
+					label: "relation"
+				}
+			},
+			initialCypher: "MATCH (n:knowledge_h)-[r:relation]->(m:knowledge_h) RETURN n,r,m limit 150"
+		}
+
+		var viz = new NeoVis.default(config);
+		viz.render();
+
+		viz.registerOnEvent('clickNode', (e) => {console.info(e.node.raw.properties);});
+
+
+	}
+</script>
+
+<script>
+	$("#reload").click(function () {
+
+		var cypher = $("#cypher").val();
+
+		if (cypher.length > 3) {
+			viz.renderWithCypher(cypher);
+		} else {
+			console.log("reload");
+			viz.reload();
+
+		}
+
+	});
+
+	$("#stabilize").click(function () {
+		viz.stabilize();
+	})
+
+</script>
+<body onload="draw()">
+
+<div id="viz"></div>
+</body>
+</html>
+
+{% endblock %}

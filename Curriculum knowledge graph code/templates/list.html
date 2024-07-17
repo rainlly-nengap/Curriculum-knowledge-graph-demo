@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>知识图谱可视化系统</title>
+    <link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
+    <style>
+        h1 {
+            font-size:40px;
+            color: white;
+            background-color:black;
+            text-align: center
+        }
+         #tips-layout {
+            color: black;
+            opacity: 0.7;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 178px;
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+            height: auto;
+        }
+
+        #tips-title {
+            font-size: 18px;
+            text-align: center;
+        }
+        #tips-content {
+            text-indent: 2em;
+            font-size: 13px;
+            padding: 0px 8px 0px 8px;
+            margin: 5px 0px 5px 0px;
+        }
+        #tips-switch-layout {
+            width: 100%;
+            height: auto;
+            line-height: 30px;
+            text-align: center;
+        }
+        .layui-form-label {
+            width: 0px;
+        }
+        .layui-input-block {
+            margin-left: 70px;
+            min-height: 36px;
+        }
+        .layui-footer"{
+            text-align:center;
+        }
+        center_text{
+        　　display:inline-block;
+        　　width:500px
+        }
+    </style>
+</head>
+<body>
+<script src="/static/js/jquery-min.js"></script>
+<script src="/static/layui/layui.js"></script>
+
+<h1>-----知识图谱可视化系统-----</h1>
+<ul class="layui-nav" lay-filter="">
+    <li class="layui-nav-item layui-this">
+        <a href="javascript:;">题库</a>
+        <dl class="layui-nav-child"> <!-- 二级菜单 -->
+            <dd><a href="/testdb_c">历史选择题</a></dd>
+            <dd><a href="/testdb_e">历史问答题</a></dd>
+        </dl>
+    </li>
+  <li class="layui-nav-item "><a href="/neo4jdb_h">历史知识图谱</a></li>
+  <li class="layui-nav-item "><a href="/neo4jdb_b">生物知识图谱</a></li>
+  <li class="layui-nav-item "><a href="/neo4jdb_p">程序设计基础知识图谱</a></li>
+  <li class="layui-nav-item "><a href="/user_table">个人主页</a></li>
+
+</ul>
+
+
+<div>
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

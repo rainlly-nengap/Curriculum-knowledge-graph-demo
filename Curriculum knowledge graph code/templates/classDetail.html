@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>知识图谱可视化系统</title>
+    <link rel="stylesheet" href="{% static 'css/layui.css' %}" media="all">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/question.css' %}">
+    <script src="/static/js/jquery-min.js"></script>
+    <script src="/static/layui/layui.js"></script>
+</head>
+<body>
+<div class="top">
+    <div class="name"><span>统计数据</span></div>
+    <div class="turn"><img src="{% static 'image/turn.png' %}"></div>
+    <div class="name1"><span>学生掌握情况</span></div>
+</div>
+<div class="bottom">
+    <div class="toolbar">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-input-inline">
+                    <select name="category" lay-filter="category" class="selector">
+                        <option value="">请选择年级</option>
+                        <option value="2020">2020级</option>
+                    </select>
+                </div>
+                <div class="search">
+                    <div class="layui-input-inline">
+                        <input id="content" placeholder="请输入班级" autocomplete="off" class="layui-input">
+                    </div>
+                    <button class="layui-btn layui-btn-sm search-btn" data-type="reload">搜索</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <table class="layui-table" id="test" lay-filter="test"></table>
+
+</div>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs checked" lay-event="checked">查看</a>
+</script>
+
+
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+        var $ = layui.jquery;
+        table.render({//渲染整个表格
+            elem: '#test',
+            url: '/getAllClass',
+            id: 'test',
+            page: {
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'],
+                groups: 1,
+                first: 1
+            },
+            cols: [[ //表头
+                {field: 'id', unresize: true, title: '序号'},
+                {field: 'grade', unresize: true, title: '年级'},
+                {field: 'major', unresize: true, title: '专业'},
+                {field: 'num', unresize: true, title: '人数'},
+                {
+                    field: 'right', toolbar: '#barDemo', width: 172, unresize: true, title: '操作',
+                    templet: function (res) {
+                        return '<em>' + res.type + '</em>'
+                    }
+                }
+            ]]
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            console.log(data.id)
+            if (obj.event === 'checked') {//审核通过
+                window.location.href="get_one_class?id="+data.id;
+            }
+        });
+
+        //右侧搜索栏
+        $('.search-btn').on('click', function () {
+            var input = $('#content');
+            table.reload("test", {
+                where: {query: input.val()}
+            });
+        });
+
+        //下拉列表监听
+        var form = layui.form;
+        form.on('select(category)', function (data) {
+            table.reload("test", {
+                where: {category: data.value}
+            });
+        });
+    });
+</script>
+</body>
+</html>

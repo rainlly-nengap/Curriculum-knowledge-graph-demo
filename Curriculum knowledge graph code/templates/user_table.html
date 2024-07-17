@@ -1,0 +1,170 @@
+{% extends 'list.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>知识图谱可视化系统</title>
+    <link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css">
+    <style>
+        h1 {
+            font-size:40px;
+            color: white;
+            background-color:black;
+            text-align: center
+        }
+         #tips-layout {
+            color: black;
+            opacity: 0.7;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 178px;
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+            height: auto;
+        }
+
+        #tips-title {
+            font-size: 18px;
+            text-align: center;
+        }
+        #tips-content {
+            text-indent: 2em;
+            font-size: 13px;
+            padding: 0px 8px 0px 8px;
+            margin: 5px 0px 5px 0px;
+        }
+        #tips-switch-layout {
+            width: 100%;
+            height: auto;
+            line-height: 30px;
+            text-align: center;
+        }
+        .layui-form-label {
+            width: 0px;
+        }
+        .layui-input-block {
+            margin-left: 70px;
+            min-height: 36px;
+        }
+        .layui-footer"{
+            text-align:center;
+        }
+        center_text{
+        　　display:inline-block;
+        　　width:500px
+        }
+    </style>
+</head>
+<body>
+<ul class="layui-nav" lay-bar="disabled">
+  <li class="layui-nav-item">
+    <a href="">{{ username }}<span class="layui-badge-dot"></span></a>
+  </li>
+  <li class="layui-nav-item" lay-unselect="">
+    <a href="javascript:;"><img src="/static/images/head.jpg" class="layui-nav-img"></a>
+    <dl class="layui-nav-child">
+      <dd style="text-align: center;"><a href="">退出登录</a></dd>
+    </dl>
+  </li>
+</ul>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+  <legend>个人信息</legend>
+</fieldset>
+<form class="layui-form layui-form-pane" action="/user_info_request/" method="get" style="width:900px; position: relative; top: 50px; left: 300px;">
+  <div class="layui-form-item">
+    <label class="layui-form-label">年级</label>
+    <div class="layui-input-inline">
+      <input type="text" name="u_grades" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">班级</label>
+    <div class="layui-input-inline">
+      <input type="text" name="u_class" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">出生日期</label>
+    <div class="layui-input-block">
+      <input type="text" name="u_date" id="date1" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+  <label class="layui-form-label">家庭住址</label>
+  <div class="layui-input-block">
+    <input type="text" name="u_home" autocomplete="off" placeholder="请输入家庭住址" class="layui-input">
+  </div>
+</div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">修改密码</label>
+    <div class="layui-input-inline">
+      <input type="password" name="u_password" placeholder="请输入密码" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">个人爱好</label>
+    <div class="layui-input-block">
+      <select name="u_interest" lay-filter="aihao">
+        <option value=""></option>
+        <option value="0">写作</option>
+        <option value="1" selected="">阅读</option>
+        <option value="2">游戏</option>
+        <option value="3">弹琴</option>
+        <option value="4">旅行</option>
+        <option value="5">编程</option>
+        <option value="6">唱歌</option>
+      </select>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">生源地址</label>
+    <div class="layui-input-inline">
+      <select name="u_province">
+        <option value="">请选择省</option>
+        <option value="四川" selected="">四川省</option>
+        <option value="浙江">浙江省</option>
+        <option value="江西">江西省</option>
+        <option value="福建">福建省</option>
+      </select>
+    </div>
+    <div class="layui-input-inline">
+      <select name="u_city">
+        <option value="">请选择市</option>
+        <option value="杭州">杭州</option>
+        <option value="宁波">宁波</option>
+        <option value="温州">温州</option>
+        <option value="温州">台州</option>
+        <option value="温州">绍兴</option>
+      </select>
+    </div>
+    <div class="layui-input-inline">
+      <select name="u_region">
+        <option value="">请选择县/区</option>
+        <option value="西湖区">西湖区</option>
+        <option value="余杭区">余杭区</option>
+        <option value="拱墅区">临安市</option>
+      </select>
+    </div>
+  </div>
+  <div class="layui-form-item" pane="">
+    <label class="layui-form-label">性别</label>
+    <div class="layui-input-block">
+      <input type="radio" name="u_gender" value="男" title="男" checked="">
+      <input type="radio" name="u_gender" value="女" title="女">
+    </div>
+  </div>
+  <div class="layui-form-item" >
+    <label class="layui-form-label"  >个性签名</label>
+    <div class="layui-input-block">
+      <input type="text" name="u_sign" placeholder="请输入个性签名" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <button type="submit"  class="layui-btn" lay-submit="" lay-filter="demo2">添加和更新信息</button>
+  </div>
+</form>
+</body>
+</html>
+{% endblock %}
